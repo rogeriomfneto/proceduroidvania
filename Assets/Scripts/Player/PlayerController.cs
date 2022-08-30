@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     [SerializeField]
-    private float runSpeed = 5f;
+    private float runSpeed = 7f;
 
     [SerializeField]
     private float jumpForce = 20f;
