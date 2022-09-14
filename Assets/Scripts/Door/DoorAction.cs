@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class DoorAction : MonoBehaviour
 {
-
-    [SerializeField]
     private PlayerController player;
 
     [SerializeField]
@@ -14,10 +12,12 @@ public class DoorAction : MonoBehaviour
 
     [SerializeField]
     private string sceneToLoad;
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
+
+    [SerializeField]
+    private KeysEnum keyType;
+
+    void Start() {
+        player = SpawnController.instance.GetComponent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
