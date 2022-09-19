@@ -13,11 +13,8 @@ public class DoorAction : MonoBehaviour
     [SerializeField]
     private string sceneToLoad;
 
-    [SerializeField]
-    private KeysEnum keyType;
-
     void Start() {
-        player = SpawnController.instance.GetComponent<PlayerController>();
+        player = PlayerSingleton.instance.GetComponent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

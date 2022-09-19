@@ -16,10 +16,18 @@ public class PlayerController : MonoBehaviour
 
     private bool jumpPressed;
 
+    private bool shootPressed;
+
     public bool grounded = true;
 
     [SerializeField]
     private Transform groundReference;
+    
+    [SerializeField]
+    private Transform shotReference;
+
+    [SerializeField]
+    private GameObject shot;
 
     [SerializeField]
     private LayerMask groundLayer;
@@ -33,8 +41,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         move = Input.GetAxisRaw("Horizontal");
-        jumpPressed = Input.GetButton("Jump");
+        if (Input.GetButtonDown("Jump")) {
+            jumpPressed = true;
+        }
 
+        if (Input.GetButtonDown("Fire1")) {
+            shootPressed = true;
+        }
     }
 
     private void FixedUpdate()
@@ -42,6 +55,9 @@ public class PlayerController : MonoBehaviour
         grounded = Physics2D.OverlapCircle(groundReference.position, .2f, groundLayer);
         Move(move);
         Jump(jumpPressed);
+        Shoot(shootPressed);
+        
+        releaseButtons();
     }
 
     public void Move(float move)
@@ -55,5 +71,18 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+    }
+
+     public void Shoot(bool shootPressed)
+    {
+        if (shootPressed)
+        {
+            Instantiate(shot, shotReference.transform.position, Quaternion.identity);
+        }
+    }
+
+    private void releaseButtons() {
+        jumpPressed = false;
+        shootPressed = false;
     }
 }
