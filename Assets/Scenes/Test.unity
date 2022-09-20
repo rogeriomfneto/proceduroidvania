@@ -554,7 +554,7 @@ MonoBehaviour:
   grounded: 1
   groundReference: {fileID: 255377139}
   shotReference: {fileID: 57942235}
-  shot: {fileID: 1810531953894322955, guid: 1bbfea06ca6dd464e9fc48ae68fe4a93, type: 3}
+  shot: {fileID: 1810531953894322950, guid: 1bbfea06ca6dd464e9fc48ae68fe4a93, type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

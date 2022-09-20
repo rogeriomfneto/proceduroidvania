@@ -17,6 +17,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetFloat("speed", Mathf.Abs(playerController.move));
         animator.SetBool("grounded", playerController.grounded);
+        animator.SetBool("shoot", playerController.shootPressed);
     }
 
     void FixedUpdate() {

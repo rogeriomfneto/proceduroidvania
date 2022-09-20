@@ -10,12 +10,14 @@ public class ShotController : MonoBehaviour
     [SerializeField]
     private float timeToDestroy = 3f;
 
+    public float direction = 1f;
+
     [SerializeField]
     private Rigidbody2D rb;
 
     void Start()
     {
-        rb.velocity = new Vector2(shotSpeed , 0);
+        rb.velocity = new Vector2(direction * shotSpeed , 0);
         destroyAfterDelay();
     }
 

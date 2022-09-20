@@ -20,6 +20,9 @@ public class DoorAnimation : MonoBehaviour
 
     void Awake() {
         anim = GetComponent<Animator>();
+    }
+
+    void Start() {
         player = PlayerSingleton.instance.GetComponent<PlayerController>();
         playerKeys = PlayerSingleton.instance.GetComponent<PlayerKeysManager>();
     }

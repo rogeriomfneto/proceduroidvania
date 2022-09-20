@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private bool jumpPressed;
 
-    private bool shootPressed;
+    public bool shootPressed;
 
     public bool grounded = true;
 
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     private Transform shotReference;
 
     [SerializeField]
-    private GameObject shot;
+    private ShotController shot;
 
     [SerializeField]
     private LayerMask groundLayer;
@@ -77,7 +77,8 @@ public class PlayerController : MonoBehaviour
     {
         if (shootPressed)
         {
-            Instantiate(shot, shotReference.transform.position, Quaternion.identity);
+            Instantiate(shot, shotReference.position, shotReference.rotation).direction = transform.localScale.x;
+            
         }
     }
 
