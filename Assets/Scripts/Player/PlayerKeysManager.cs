@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerKeysManager : MonoBehaviour
 {
-    private List<KeysEnum> keys = new List<KeysEnum>();
+    private List<KeysEnum> keys = new List<KeysEnum>{ KeysEnum.None };
 
     public void addKey(KeysEnum newKey) {
         keys.Add(newKey);

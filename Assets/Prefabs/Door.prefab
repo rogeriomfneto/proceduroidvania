@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1928783301438712229}
   m_Layer: 0
-  m_Name: ExitPoint
+  m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1928783301438712230}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.2, y: -0.3, z: 0}
+  m_LocalPosition: {x: -2.73, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59,7 +59,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1928783301788843516}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 23.52, y: -3.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorBlocker: {fileID: 1928783302520949343}
   distanceToOpen: 7.5
-  keyType: 0
+  keyType: 4
 --- !u!114 &1928783301788843462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd3313e596dfad74e8a1a8fee8a68f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exitPoint: {fileID: 1928783301438712229}
+  exitPoint: {fileID: 0}
+  spawnPoint: {fileID: 1928783301438712229}
   sceneToLoad: Test2
 --- !u!1 &1928783302520949329
 GameObject:

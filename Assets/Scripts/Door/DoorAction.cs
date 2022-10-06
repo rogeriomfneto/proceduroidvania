@@ -5,13 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class DoorAction : MonoBehaviour
 {
+
+    public delegate void OnSceneChange(Scene scene);
+    public static event OnSceneChange onSceneChange; 
     private PlayerController player;
 
     [SerializeField]
-    private Transform exitPoint;
+    public Transform exitPoint;
 
     [SerializeField]
-    private string sceneToLoad;
+    public Transform spawnPoint;
+
+    [SerializeField]
+    public string sceneToLoad;
 
     void Start() {
         player = PlayerSingleton.instance.GetComponent<PlayerController>();
@@ -19,8 +25,14 @@ public class DoorAction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
-            player.transform.position = exitPoint.position;
-            SceneManager.LoadScene(sceneToLoad);
+           changeScene();
         }
+    }
+
+    private void changeScene() {
+        player.transform.position = exitPoint.position;
+        Scene scene = SceneManager.GetSceneByName(sceneToLoad);
+        SceneManager.SetActiveScene(scene);
+        onSceneChange?.Invoke(scene);
     }
 }
