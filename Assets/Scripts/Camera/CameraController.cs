@@ -24,11 +24,11 @@ public class CameraController : MonoBehaviour
     } 
 
     private void OnEnable() {
-        DoorAction.onSceneChange += changeBounds;
+        ScenesManager.onSceneLoad += onChangeBounds;
     }
 
     private void OnDisable() {
-        DoorAction.onSceneChange -= changeBounds;
+        ScenesManager.onSceneLoad -= onChangeBounds;
     }
 
     void Start() {
@@ -45,10 +45,8 @@ public class CameraController : MonoBehaviour
             transform.position.z);
     }
 
-    private void changeBounds(Scene scene) {
-        List<GameObject> objects = new List<GameObject>();
-        scene.GetRootGameObjects(objects);
-        GameObject newLevelBounds = objects.Find(obj => obj.name == "LevelBounds");
+    private void onChangeBounds(string sceneName, string doorName) {
+        GameObject newLevelBounds = GameObject.Find("LevelBounds");
         levelBounds = newLevelBounds.GetComponent<BoxCollider2D>();
     }
 }

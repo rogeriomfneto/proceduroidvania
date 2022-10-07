@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class DoorAction : MonoBehaviour
 {
-
-    public delegate void OnSceneChange(Scene scene);
-    public static event OnSceneChange onSceneChange; 
     private PlayerController player;
 
     [SerializeField]
@@ -30,9 +27,8 @@ public class DoorAction : MonoBehaviour
     }
 
     private void changeScene() {
-        player.transform.position = exitPoint.position;
-        Scene scene = SceneManager.GetSceneByName(sceneToLoad);
-        SceneManager.SetActiveScene(scene);
-        onSceneChange?.Invoke(scene);
+        string sceneName = SceneManager.GetActiveScene().name;
+        DoorData doorData = ScenesManager.instance.getDoorData(sceneName, gameObject.name);
+        ScenesManager.instance.LoadNewScene(doorData.destinationScene, doorData.destinationDoor);
     }
 }
