@@ -1,9 +1,9 @@
 public enum KeysEnum
 {
-    Blue,
     Red,
-    Purple,
-    Orange,
+    Green,
+    Blue,
+    Yellow,
     
     None
 }

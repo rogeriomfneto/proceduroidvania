@@ -16,25 +16,38 @@ public class DoorAnimation : MonoBehaviour
     [SerializeField]
     private KeysEnum keyType = KeysEnum.None;
 
-    private Animator anim;
+    [SerializeField]
+    private GameObject keyTypeDisplay;
 
-    private SpriteRenderer sprite;
+    [SerializeField]
+    private Sprite[] keysArray;
+
+    private Animator anim;
 
     void Awake() {
         anim = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
     }
 
     void Start() {
         player = PlayerSingleton.instance.GetComponent<PlayerController>();
         playerKeys = PlayerSingleton.instance.GetComponent<PlayerKeysManager>();
-        // sprite.color = getDoorColor(keyType);
+       
+        setSprite();
+    }
+
+    private void setSprite() {
+        SpriteRenderer keyTypeDisplayRenderer = keyTypeDisplay.GetComponent<SpriteRenderer>();
+        if (keyType != KeysEnum.None) {
+            keyTypeDisplayRenderer.sprite = getSpriteByKeyType(keyType);
+        } else {
+            keyTypeDisplayRenderer.sprite = null;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        sprite.color = getDoorColor(keyType);
+        setSprite();
         if (shouldOpenDoor()) {
             anim.SetBool("isOpenning", true);
             doorBlocker.enabled = false;
@@ -48,19 +61,8 @@ public class DoorAnimation : MonoBehaviour
         return Vector3.Distance(transform.position, player.transform.position) < distanceToOpen
             && playerKeys.hasKey(keyType);
     }
-    
-    private Color getDoorColor(KeysEnum key) {
-        switch(key) {
-            case KeysEnum.Blue:
-                return new Color(.2f, .2f, 1, 1);
-            case KeysEnum.Orange:
-                return new Color(1, .5f, 0, 1);
-            case KeysEnum.Purple:
-                return new Color(.5f, 0, 1, 1);
-            case KeysEnum.Red:
-                return new Color(1, .2f, .2f, 1);
-            default:
-                return new Color(1, 1, 1, 1);
-        }
+
+    public Sprite getSpriteByKeyType(KeysEnum keyType) {
+        return keysArray[(int) keyType];
     }
 }

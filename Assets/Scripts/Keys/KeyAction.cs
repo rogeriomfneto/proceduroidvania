@@ -7,6 +7,23 @@ public class KeyAction : MonoBehaviour
     [SerializeField]
     private KeysEnum keyType;
 
+    [SerializeField]
+    private Sprite[] keysArray;
+
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start() {
+        spriteRenderer.sprite = getSpriteByKeyType(keyType);
+    }
+
+    private void Update() {
+        spriteRenderer.sprite = getSpriteByKeyType(keyType);
+    }
+
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
             PlayerKeysManager manager = other.GetComponent<PlayerKeysManager>();
@@ -14,4 +31,10 @@ public class KeyAction : MonoBehaviour
             Destroy(gameObject);
         }   
     }
+
+    public Sprite getSpriteByKeyType(KeysEnum keyType) {
+        return keysArray[(int) keyType];
+    }
+
+
 }
