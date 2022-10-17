@@ -1,33 +1,45 @@
-using UnityEngine;
+
 using System.Collections;
 using System.Collections.Generic;
 
 public class Graph {
 
-    private List<List<Pair<int, KeysEnum>>> adj;
+    public int[,] adj;
 
-    private List<Vertex> vertexes;
+    public Vertex[] vertexes;
+
+    public int n;
+
+    public int count = 0;
 
     public Graph(int n) {
-        adj = new List<List<Pair<int, KeysEnum>>>(n);
-        vertexes = new List<Vertex>(n);
+        adj = new int[n, n];
+
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                adj[i, j] = -1;
+
+        vertexes = new Vertex[n];
+
+        this.n = n;
     }
 
-    public void addVertex(string sceneName, KeysEnum keyType) {
-        int index = vertexes.Count;
-        vertexes.Add(new Vertex(index, sceneName, keyType));
-        adj.Add(new List<Pair<int, KeysEnum>>());
+    public int addVertex(string sceneName, KeysEnum keyType) {
+        int index = count++;
+        vertexes[index] = new Vertex(index, sceneName, keyType);
+        return index;
     }
 
     public void addEdge(int index1, int index2, KeysEnum keyType) {
-        adj[index1].Add(new Pair<int, KeysEnum>(index2, keyType));
+        UnityEngine.Debug.Log("addEdge: " + adj[index1, index2]);
+        adj[index1, index2] = (int) keyType;
     }
 
     public void bfs() {
-        if (vertexes.Count == 0) return;
+        if (count == 0) return;
         
         Queue queue = new Queue();
-        bool[] visited = new bool[vertexes.Count];
+        bool[] visited = new bool[n];
 
         queue.Enqueue(0);
 
@@ -36,13 +48,24 @@ public class Graph {
             int index = (int) queue.Dequeue();
             visited[index] = true;
             UnityEngine.Debug.Log(index);
-            for (int i = 0; i < adj[index].Count; i++) {
-                if (!visited[adj[index][i].First]) {
-                    queue.Enqueue(adj[index][i].First);
+            for (int i = 0; i < n; i++) {
+                if (adj[index, i] != -1 && !visited[i]) {
+                    queue.Enqueue(i);
                 }
             }
         }
 
+    }
+
+    public void debug() {
+        UnityEngine.Debug.Log("Debug graph: ");
+        for (int i = 0; i < count; i++) {
+            UnityEngine.Debug.Log(i + ": ");
+            for (int j = 0; j < n; j++) {
+                if (adj[i, j] != -1)
+                    UnityEngine.Debug.Log(((KeysEnum) adj[i,j]).ToString() + " " + j);
+            }
+        }
     }
 }
 

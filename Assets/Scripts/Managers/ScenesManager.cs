@@ -24,7 +24,11 @@ public class ScenesManager : MonoBehaviour
             graph.addEdge(0, 2, KeysEnum.None);
             graph.addEdge(2, 1, KeysEnum.None);
 
-            graph.bfs();
+            Rule rule = new AddLock();
+            int[] vertexes = rule.findMatch(graph);
+            rule.appplyTransformation(graph, vertexes);
+
+            graph.debug();
 
             DontDestroyOnLoad(gameObject);
         } else {
