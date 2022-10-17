@@ -11,9 +11,21 @@ public class ScenesManager : MonoBehaviour
     public static event OnSceneLoad onSceneLoad; 
     ScenesConnectionData scenesConnectionData = new ScenesConnectionData();
 
+    Graph graph = new Graph(5);
+
     void Awake() {
         if (instance == null) {
             instance = this;
+
+            graph.addVertex("cena1", KeysEnum.None);
+            graph.addVertex("cena2", KeysEnum.None);
+            graph.addVertex("cena3", KeysEnum.None);
+
+            graph.addEdge(0, 2, KeysEnum.None);
+            graph.addEdge(2, 1, KeysEnum.None);
+
+            graph.bfs();
+
             DontDestroyOnLoad(gameObject);
         } else {
             Destroy(gameObject);
