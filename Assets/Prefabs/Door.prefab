@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorBlocker: {fileID: 1928783302520949343}
   distanceToOpen: 7.5
-  keyType: 0
+  keyType: 4
   keyTypeDisplay: {fileID: 5016212313363295704}
   keysArray:
   - {fileID: 21300000, guid: aa78ada8c82efc8469c462ed7eca10d3, type: 3}

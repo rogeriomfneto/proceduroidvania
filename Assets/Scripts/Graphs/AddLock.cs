@@ -33,7 +33,7 @@ public class AddLock : Rule {
      }
 
     public void appplyTransformation(Graph graph, int[] vertexes) {
-        int index = graph.addVertex("cenaBla", KeysEnum.Red);
+        int index = graph.addVertex("scene4", KeysEnum.Red);
         graph.addEdge(vertexes[0], index, KeysEnum.None);
 
         graph.addEdge(vertexes[0], vertexes[1],  KeysEnum.Red);

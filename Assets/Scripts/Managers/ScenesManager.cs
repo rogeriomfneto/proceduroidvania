@@ -9,26 +9,15 @@ public class ScenesManager : MonoBehaviour
 
     public delegate void OnSceneLoad(string sceneName, string doorName);
     public static event OnSceneLoad onSceneLoad; 
-    ScenesConnectionData scenesConnectionData = new ScenesConnectionData();
-
-    Graph graph = new Graph(5);
+    private ScenesConnectionData scenesConnectionData;
 
     void Awake() {
         if (instance == null) {
             instance = this;
 
-            graph.addVertex("cena1", KeysEnum.None);
-            graph.addVertex("cena2", KeysEnum.None);
-            graph.addVertex("cena3", KeysEnum.None);
-
-            graph.addEdge(0, 2, KeysEnum.None);
-            graph.addEdge(2, 1, KeysEnum.None);
-
-            Rule rule = new AddLock();
-            int[] vertexes = rule.findMatch(graph);
-            rule.appplyTransformation(graph, vertexes);
-
-            graph.debug();
+            Graph graph = createMissionGraph();
+            GraphToSceneData graphToSceneData = new GraphToSceneData(graph);
+            scenesConnectionData = graphToSceneData.getSceneData();
 
             DontDestroyOnLoad(gameObject);
         } else {
@@ -53,5 +42,26 @@ public class ScenesManager : MonoBehaviour
         return scenesConnectionData.getScene(sceneName).getDoor(doorName);
     }
 
+    public SceneData getSceneData(string sceneName) {
+        return scenesConnectionData.getScene(sceneName);
+    }
 
+
+    private Graph createMissionGraph() {
+        Graph graph = new Graph(5);
+        graph.addVertex("scene1", KeysEnum.None);
+        graph.addVertex("scene2", KeysEnum.None);
+        graph.addVertex("scene3", KeysEnum.None);
+
+        graph.addEdge(0, 1, KeysEnum.None);
+        graph.addEdge(1, 2, KeysEnum.None);
+
+        Rule rule = new AddLock();
+        int[] vertexes = rule.findMatch(graph);
+        rule.appplyTransformation(graph, vertexes);
+
+        graph.debug();
+
+        return graph;
+    }
 }

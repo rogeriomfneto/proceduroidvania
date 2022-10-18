@@ -13,8 +13,7 @@ public class DoorAnimation : MonoBehaviour
     [SerializeField]
     private float distanceToOpen = 7.5f;
 
-    [SerializeField]
-    private KeysEnum keyType = KeysEnum.None;
+    public KeysEnum keyType = KeysEnum.None;
 
     [SerializeField]
     private GameObject keyTypeDisplay;

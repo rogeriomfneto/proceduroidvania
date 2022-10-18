@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 public class SceneData {
     public string name;
-    public bool keyActive = false;
-    public KeysEnum keyColor = KeysEnum.None;
+    public KeysEnum keyType = KeysEnum.None;
     public Dictionary<string, DoorData> doors = new Dictionary<string, DoorData>(4);
 
     private const int doorsNumber = 4;
