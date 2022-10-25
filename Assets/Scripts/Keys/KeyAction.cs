@@ -5,7 +5,7 @@ using UnityEngine;
 public class KeyAction : MonoBehaviour
 {
     [SerializeField]
-    private KeysEnum keyType;
+    public KeysEnum keyType;
 
     [SerializeField]
     private Sprite[] keysArray;

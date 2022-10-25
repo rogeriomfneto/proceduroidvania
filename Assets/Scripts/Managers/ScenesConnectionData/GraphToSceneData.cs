@@ -10,7 +10,7 @@ public class GraphToSceneData {
 
     public ScenesConnectionData getSceneData() {
         if (graph == null) return null;
-        if (graph.count == 0) return null;
+        if (graph.vertexCount == 0) return null;
 
         ScenesConnectionData scenesConnectionData = new ScenesConnectionData();
 
@@ -40,7 +40,7 @@ public class GraphToSceneData {
 
                     int secondDoor = currentDoor == 1 ? 4 : currentDoor - 1;
 
-                    scenesConnectionData.connect(firstScene, doorPrefix + currentDoor ,secondScene, doorPrefix + secondDoor, keyType);
+                    scenesConnectionData.connect(firstScene, doorPrefix + currentDoor, secondScene, doorPrefix + secondDoor, keyType);
                     currentDoor = currentDoor == 4 ? 1 : currentDoor + 1;
                 }
             }

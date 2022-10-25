@@ -10,7 +10,9 @@ public class Graph {
 
     public int n;
 
-    public int count = 0;
+    public int vertexCount = 0;
+
+    private Stack availableKeys;
 
     public Graph(int n) {
         adj = new int[n, n];
@@ -22,21 +24,39 @@ public class Graph {
         vertexes = new Vertex[n];
 
         this.n = n;
+
+        this.availableKeys = new Stack();
+        this.availableKeys.Push(KeysEnum.Red);
+        this.availableKeys.Push(KeysEnum.Green);
+        this.availableKeys.Push(KeysEnum.Blue);
+        this.availableKeys.Push(KeysEnum.Yellow);
     }
 
     public int addVertex(string sceneName, KeysEnum keyType) {
-        int index = count++;
+        int index = vertexCount++;
         vertexes[index] = new Vertex(index, sceneName, keyType);
         return index;
     }
 
     public void addEdge(int index1, int index2, KeysEnum keyType) {
-        UnityEngine.Debug.Log("addEdge: " + adj[index1, index2]);
         adj[index1, index2] = (int) keyType;
+        vertexes[index1].neighborsCount++;
+        vertexes[index2].neighborsCount++;
+        UnityEngine.Debug.Log("addEdge: " + index1 + " " + index2 + " = " + (keyType));
+
+    }
+
+    public KeysEnum getAvailableKey() {
+        if (this.availableKeys.Count == 0) return KeysEnum.None;
+        return (KeysEnum) this.availableKeys.Pop();
+    }
+
+    public bool acceptsNewVertex() {
+        return this.vertexCount < n;
     }
 
     public void bfs() {
-        if (count == 0) return;
+        if (vertexCount == 0) return;
         
         Queue queue = new Queue();
         bool[] visited = new bool[n];
@@ -59,7 +79,7 @@ public class Graph {
 
     public void debug() {
         UnityEngine.Debug.Log("Debug graph: ");
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < vertexCount; i++) {
             UnityEngine.Debug.Log(i + ": ");
             for (int j = 0; j < n; j++) {
                 if (adj[i, j] != -1)
@@ -72,25 +92,14 @@ public class Graph {
 public class Vertex {
     public int index;
     public string sceneName;
+    public int neighborsCount;
     public KeysEnum keyType;
 
     public Vertex(int index, string sceneName, KeysEnum keyType) {
         this.index = index;
         this.sceneName = sceneName;
         this.keyType = keyType;
+        this.neighborsCount = 0;
     }
 
 } 
-
-public class Pair<T, U> {
-    public Pair() {
-    }
-
-    public Pair(T first, U second) {
-        this.First = first;
-        this.Second = second;
-    }
-
-    public T First { get; set; }
-    public U Second { get; set; }
-};

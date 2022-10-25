@@ -48,7 +48,7 @@ public class ScenesManager : MonoBehaviour
 
 
     private Graph createMissionGraph() {
-        Graph graph = new Graph(5);
+        Graph graph = new Graph(10);
         graph.addVertex("scene1", KeysEnum.None);
         graph.addVertex("scene2", KeysEnum.None);
         graph.addVertex("scene3", KeysEnum.None);
@@ -58,6 +58,9 @@ public class ScenesManager : MonoBehaviour
 
         Rule rule = new AddLock();
         int[] vertexes = rule.findMatch(graph);
+        Debug.Log("match vertices: ");
+        for (int i = 0; i < vertexes.Length; i++)
+            Debug.Log("vértice: " + vertexes[i]);
         rule.appplyTransformation(graph, vertexes);
 
         graph.debug();

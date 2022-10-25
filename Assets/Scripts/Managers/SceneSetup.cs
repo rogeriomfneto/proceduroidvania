@@ -15,6 +15,8 @@ public class SceneSetup : MonoBehaviour
         SceneData sceneData = ScenesManager.instance.getSceneData(SceneManager.GetActiveScene().name);
         Debug.Log("keyType = " + sceneData.keyType);
         GameObject key = GameObject.Find("Key");
+
+        key.GetComponent<KeyAction>().keyType = sceneData.keyType;
         key.SetActive(sceneData.keyType != KeysEnum.None); 
     }
 
