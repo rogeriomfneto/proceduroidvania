@@ -26,9 +26,6 @@ public class GraphToSceneData {
             Vertex v = graph.vertexes[index];
             SceneData sceneData = scenesConnectionData.getScene(v.sceneName);
             sceneData.keyType = v.keyType;
-            
-            int currentDoor = 4;
-            string doorPrefix = "Door";
 
             for (int i = 0; i < graph.n; i++) {
                 if (graph.adj[index, i] != -1 && !visited[i]) {
@@ -38,10 +35,7 @@ public class GraphToSceneData {
                     string firstScene = v.sceneName;
                     string secondScene = graph.vertexes[i].sceneName;
 
-                    int secondDoor = currentDoor == 1 ? 4 : currentDoor - 1;
-
-                    scenesConnectionData.connect(firstScene, doorPrefix + currentDoor, secondScene, doorPrefix + secondDoor, keyType);
-                    currentDoor = currentDoor == 4 ? 1 : currentDoor + 1;
+                    scenesConnectionData.connect(firstScene, secondScene, keyType);
                 }
             }
         }

@@ -8,7 +8,7 @@ public class SceneData {
     public Stack availableDoors;
     private const int doorsNumber = 4;
 
-    private int[] doorsOrder = {2, 4, 1, 3};
+    private int[] doorsOrder = {4, 2, 3, 1};
 
     private int[] matchingDoor = {0, 2, 1, 4, 3};
 

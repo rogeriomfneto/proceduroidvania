@@ -13,7 +13,13 @@ public class ScenesConnectionData {
         return scenesData[name];
     }
 
-    public void connect(string fromScene, string fromDoor, string toScene, string toDoor, KeysEnum keyType) {
+    public void connect(string fromScene, string toScene, KeysEnum keyType) {
+        int fromDoorNumber = getScene(fromScene).getAvailableDoor();
+        int toDoorNumber = getScene(toScene).getMatchingDoor(fromDoorNumber);
+
+        string fromDoor = "Door" + fromDoorNumber;
+        string toDoor = "Door" + toDoorNumber;
+
         DoorData from = getScene(fromScene).getDoor(fromDoor);
         DoorData to = getScene(toScene).getDoor(toDoor);
 
