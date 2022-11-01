@@ -57,10 +57,10 @@ public class ScenesManager : MonoBehaviour
         graph.addEdge(1, 2, KeysEnum.None);
 
         Rule rule = new AddLock();
-        int[] vertexes = rule.findMatch(graph);
-        Debug.Log("match vertices: ");
-        for (int i = 0; i < vertexes.Length; i++)
-            Debug.Log("vértice: " + vertexes[i]);
+        int[][] vertexes = rule.findMatch(graph);
+        // Debug.Log("match vertices: ");
+        // for (int i = 0; i < vertexes.Length; i++)
+        //     Debug.Log("vértice: " + vertexes[i]);
         rule.appplyTransformation(graph, vertexes);
 
         graph.debug();

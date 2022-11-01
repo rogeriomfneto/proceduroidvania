@@ -39,11 +39,21 @@ public class Graph {
     }
 
     public void addEdge(int index1, int index2, KeysEnum keyType) {
-        adj[index1, index2] = (int) keyType;
-        vertexes[index1].neighborsCount++;
-        vertexes[index2].neighborsCount++;
+        if (vertexes[index1].outCount >= 2 || vertexes[index2].inCount >= 2 ) {
+            UnityEngine.Debug.LogError("can't connect new edge from " + index1 + " to " + index2 + "\n" + vertexes[index1].outCount + " " + vertexes[index2].inCount);
+            return;
+        }
+
+        setEdge(index1, index2, keyType);   
+
+        vertexes[index1].outCount++;
+        vertexes[index2].inCount++;
         UnityEngine.Debug.Log("addEdge: " + index1 + " " + index2 + " = " + (keyType));
 
+    }
+
+    public void setEdge(int index1, int index2, KeysEnum keyType) {
+         adj[index1, index2] = (int) keyType;
     }
 
     public KeysEnum getAvailableKey() {
@@ -92,14 +102,14 @@ public class Graph {
 public class Vertex {
     public int index;
     public string sceneName;
-    public int neighborsCount;
     public KeysEnum keyType;
+    public int inCount = 0;
+    public int outCount = 0;
 
     public Vertex(int index, string sceneName, KeysEnum keyType) {
         this.index = index;
         this.sceneName = sceneName;
         this.keyType = keyType;
-        this.neighborsCount = 0;
     }
 
 } 
