@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddLock : Rule {
+public class DelayKey : Rule {
 
      public int[][] findMatch(Graph graph) {
         if (graph.vertexCount == 0
-            || !graph.acceptsNewVertex()
-            || graph.getAvailableKeyCount() == 0) return new int[0][];
-            
+            || !graph.acceptsNewVertex()) return new int[0][];
+
         List<int[]> matches = new List<int[]>();
 
         for (int i = 0; i < graph.n; i++) {
@@ -24,11 +23,9 @@ public class AddLock : Rule {
      }
 
 
-
      private bool match(Graph graph, int i, int j) {
-        return  graph.adj[i, j] == (int) KeysEnum.None 
-                && graph.vertexes[i].outCount < 2
-                && graph.vertexes[j].inCount < 2;
+        return  graph.adj[i, j] != -1
+                && graph.vertexes[j].keyType != KeysEnum.None;
      }
 
     public void applyTransformation(Graph graph, int[][] vertexes) {
@@ -36,14 +33,18 @@ public class AddLock : Rule {
 
         int random = Random.Range(0, vertexes.Length);
 
-        KeysEnum key = graph.getAvailableKey();
+        int first = vertexes[random][0];
+        int second = vertexes[random][1];
+
+        UnityEngine.Debug.Log("Delaying key for vertices " + first + " and "+ second);
+
         string nextScene = "scene" + (graph.vertexCount + 1);
 
-        UnityEngine.Debug.Log("Adding lock between vertices " + vertexes[random][0] + " and "+ vertexes[random][1]);
+        int index = graph.addVertex(nextScene, KeysEnum.None);
+        KeysEnum key = (KeysEnum) graph.adj[first, second];
 
-        int index = graph.addVertex(nextScene, key);
-        graph.addEdge(vertexes[random][0], index, KeysEnum.None);
-
-        graph.setEdge(vertexes[random][0], vertexes[random][1],  key);
+        graph.deleteEdge(first, second);
+        graph.addEdge(first, index, key);
+        graph.addEdge(index, second, KeysEnum.None);
     }
 }

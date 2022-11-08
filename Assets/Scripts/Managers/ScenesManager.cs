@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+
 
 public class ScenesManager : MonoBehaviour
 {
@@ -38,6 +40,11 @@ public class ScenesManager : MonoBehaviour
         onSceneLoad?.Invoke(sceneName, doorName);
     }
 
+    public void removeKeyFromScene() {
+        string sceneName = getCurrentSceneName();
+        getSceneData(sceneName).keyType = KeysEnum.None;
+    }
+
     public DoorData getDoorData(string sceneName, string doorName) {
         return scenesConnectionData.getScene(sceneName).getDoor(doorName);
     }
@@ -48,7 +55,7 @@ public class ScenesManager : MonoBehaviour
 
 
     private Graph createMissionGraph() {
-        Graph graph = new Graph(10);
+        Graph graph = new Graph(16);
         graph.addVertex("scene1", KeysEnum.None);
         graph.addVertex("scene2", KeysEnum.None);
         graph.addVertex("scene3", KeysEnum.None);
@@ -56,15 +63,25 @@ public class ScenesManager : MonoBehaviour
         graph.addEdge(0, 1, KeysEnum.None);
         graph.addEdge(1, 2, KeysEnum.None);
 
-        Rule rule = new AddLock();
-        int[][] vertexes = rule.findMatch(graph);
-        // Debug.Log("match vertices: ");
-        // for (int i = 0; i < vertexes.Length; i++)
-        //     Debug.Log("vértice: " + vertexes[i]);
-        rule.appplyTransformation(graph, vertexes);
+        List<Rule> rules = new List<Rule>();
+        rules.Add(new AddVertexBetween());
+        rules.Add(new AddLock());
+        rules.Add(new DelayKey());
+        
+        int [][] vertexes;
+        for (int i = 0; i < 5; i++) {
+            foreach (var rule in rules) {
+                vertexes = rule.findMatch(graph);
+                rule.applyTransformation(graph, vertexes);
+            }
+            graph.debug();
+        }
 
         graph.debug();
-
         return graph;
+    }
+
+    public string getCurrentSceneName() {
+        return SceneManager.GetActiveScene().name;
     }
 }

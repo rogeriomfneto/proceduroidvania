@@ -35,6 +35,7 @@ public class Graph {
     public int addVertex(string sceneName, KeysEnum keyType) {
         int index = vertexCount++;
         vertexes[index] = new Vertex(index, sceneName, keyType);
+        UnityEngine.Debug.Log("addVertex: "+ index + " " + keyType);
         return index;
     }
 
@@ -44,7 +45,7 @@ public class Graph {
             return;
         }
 
-        setEdge(index1, index2, keyType);   
+        adj[index1, index2] = (int) keyType;  
 
         vertexes[index1].outCount++;
         vertexes[index2].inCount++;
@@ -52,13 +53,30 @@ public class Graph {
 
     }
 
+    public void deleteEdge(int index1, int index2) {
+        if (adj[index1, index2] == -1) {
+            UnityEngine.Debug.LogError("No edge to delete from " + index1 + " " + index2);
+            return;
+        }
+
+        adj[index1, index2] = -1;
+        vertexes[index1].outCount--;
+        vertexes[index2].inCount--;
+        UnityEngine.Debug.Log("deleteEdge: " + index1 + " " + index2);
+    }
+
     public void setEdge(int index1, int index2, KeysEnum keyType) {
-         adj[index1, index2] = (int) keyType;
+        UnityEngine.Debug.Log("setEdge: " + index1 + " " + index2 + " = " + (keyType));
+        adj[index1, index2] = (int) keyType;
     }
 
     public KeysEnum getAvailableKey() {
         if (this.availableKeys.Count == 0) return KeysEnum.None;
         return (KeysEnum) this.availableKeys.Pop();
+    }
+
+    public int getAvailableKeyCount() {
+        return availableKeys.Count;
     }
 
     public bool acceptsNewVertex() {
@@ -88,14 +106,18 @@ public class Graph {
     }
 
     public void debug() {
-        UnityEngine.Debug.Log("Debug graph: ");
+        UnityEngine.Debug.Log("vertexCount: " + vertexCount);
+        string finalString = "\nDebug graph:\n";
         for (int i = 0; i < vertexCount; i++) {
-            UnityEngine.Debug.Log(i + ": ");
-            for (int j = 0; j < n; j++) {
+            finalString += (i + ": ");
+            for (int j = 0; j < vertexCount; j++) {
                 if (adj[i, j] != -1)
-                    UnityEngine.Debug.Log(((KeysEnum) adj[i,j]).ToString() + " " + j);
+                    finalString += j + "-" + ((KeysEnum) adj[i,j]) + " ";
             }
+            finalString += "\n";
         }
+
+        UnityEngine.Debug.Log(finalString);
     }
 }
 

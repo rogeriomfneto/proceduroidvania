@@ -29,6 +29,7 @@ public class KeyAction : MonoBehaviour
             PlayerKeysManager manager = other.GetComponent<PlayerKeysManager>();
             manager.addKey(keyType);
             Destroy(gameObject);
+            ScenesManager.instance.removeKeyFromScene();
         }   
     }
 
