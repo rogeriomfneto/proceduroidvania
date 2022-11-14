@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddVertexBetween : Rule {
+public class ConnectVertices : Rule {
 
      public int[][] findMatch(Graph graph) {
-        if (graph.vertexCount == 0
-            || !graph.acceptsNewVertex()) return new int[0][];
+        if (graph.vertexCount == 0) return new int[0][];
 
         List<int[]> matches = new List<int[]>();
 
@@ -24,8 +23,10 @@ public class AddVertexBetween : Rule {
 
 
      private bool match(Graph graph, int i, int j) {
-        return  graph.adj[i, j] ==  (int) KeysEnum.None 
-                && graph.vertexes[j].keyType == KeysEnum.None;
+        return  graph.adj[i, j] == -1
+                && graph.vertexes[j].keyType == KeysEnum.None
+                && graph.vertexes[i].outCount < 2
+                && graph.vertexes[j].inCount < 2;
      }
 
     public void applyTransformation(Graph graph, int[][] vertexes) {
@@ -36,14 +37,8 @@ public class AddVertexBetween : Rule {
         int first = vertexes[random][0];
         int second = vertexes[random][1];
 
-        UnityEngine.Debug.Log("Adding vertex between " + first + " and "+ second);
+        UnityEngine.Debug.Log("Connecting vertices " + first + " and "+ second);
 
-        string nextScene = "scene" + (graph.vertexCount + 1);
-
-        int index = graph.addVertex(nextScene, KeysEnum.None);
-
-        graph.deleteEdge(first, second);
-        graph.addEdge(first, index, KeysEnum.None);
-        graph.addEdge(index, second, KeysEnum.None);
+        graph.addEdge(first, second, KeysEnum.None);
     }
 }

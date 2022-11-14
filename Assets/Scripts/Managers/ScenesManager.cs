@@ -63,18 +63,26 @@ public class ScenesManager : MonoBehaviour
         graph.addEdge(0, 1, KeysEnum.None);
         graph.addEdge(1, 2, KeysEnum.None);
 
-        List<Rule> rules = new List<Rule>();
-        rules.Add(new AddVertexBetween());
-        rules.Add(new AddLock());
-        rules.Add(new DelayKey());
+        List<Rule> rulesThatVertexes = new List<Rule>();
+        rulesThatVertexes.Add(new AddVertexBetween());
+        rulesThatVertexes.Add(new AddLock());
+        rulesThatVertexes.Add(new DelayKey());
         
         int [][] vertexes;
         for (int i = 0; i < 5; i++) {
-            foreach (var rule in rules) {
+            foreach (var rule in rulesThatVertexes) {
                 vertexes = rule.findMatch(graph);
                 rule.applyTransformation(graph, vertexes);
             }
-            graph.debug();
+        }
+
+        List<Rule> rulesThatAddEdges = new List<Rule>();
+        rulesThatAddEdges.Add(new ConnectVertices());
+        for (int i = 0; i < 4; i++) {
+            foreach (var rule in rulesThatAddEdges) {
+                vertexes = rule.findMatch(graph);
+                rule.applyTransformation(graph, vertexes);
+            }
         }
 
         graph.debug();
