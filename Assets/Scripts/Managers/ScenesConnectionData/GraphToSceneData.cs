@@ -14,26 +14,44 @@ public class GraphToSceneData {
 
         ScenesConnectionData scenesConnectionData = new ScenesConnectionData();
 
-        Queue queue = new Queue();
-        bool[] visited = new bool[graph.n];
+        // Queue queue = new Queue();
+        // bool[] visited = new bool[graph.n];
 
-        queue.Enqueue(0);
+        // queue.Enqueue(0);
 
-        while(queue.Count != 0) {
-            int index = (int) queue.Dequeue();
-            visited[index] = true;
+        // while(queue.Count != 0) {
+        //     int index = (int) queue.Dequeue();
+        //     if (visited[index]) continue;
 
-            Vertex v = graph.vertexes[index];
+        //     visited[index] = true;
+
+        //     Vertex v = graph.vertexes[index];
+        //     SceneData sceneData = scenesConnectionData.getScene(v.sceneName);
+        //     sceneData.keyType = v.keyType;
+
+        //     for (int i = 0; i < graph.n; i++) {
+        //         if (graph.adj[index, i] != -1 && !visited[i]) {
+        //             queue.Enqueue(i);
+
+        //             KeysEnum keyType = (KeysEnum) graph.adj[index, i];
+        //             string firstScene = v.sceneName;
+        //             string secondScene = graph.vertexes[i].sceneName;
+
+        //             scenesConnectionData.connect(firstScene, secondScene, keyType);
+        //         }
+        //     }
+        // }
+
+        for (int i = 0; i < graph.vertexCount; i++) {
+            Vertex v = graph.vertexes[i];
             SceneData sceneData = scenesConnectionData.getScene(v.sceneName);
             sceneData.keyType = v.keyType;
-
-            for (int i = 0; i < graph.n; i++) {
-                if (graph.adj[index, i] != -1 && !visited[i]) {
-                    queue.Enqueue(i);
-
-                    KeysEnum keyType = (KeysEnum) graph.adj[index, i];
+            for (int j = 0; j < graph.vertexCount; j++) {
+                 if (graph.adj[i, j] != -1) {
+                    
+                    KeysEnum keyType = (KeysEnum) graph.adj[i, j];
                     string firstScene = v.sceneName;
-                    string secondScene = graph.vertexes[i].sceneName;
+                    string secondScene = graph.vertexes[j].sceneName;
 
                     scenesConnectionData.connect(firstScene, secondScene, keyType);
                 }

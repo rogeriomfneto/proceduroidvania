@@ -11,6 +11,9 @@ public class ScenesManager : MonoBehaviour
 
     public delegate void OnSceneLoad(string sceneName, string doorName);
     public static event OnSceneLoad onSceneLoad; 
+
+    public delegate void LoadSceneCalled();
+    public static event LoadSceneCalled onLoadSceneCalled;
     private ScenesConnectionData scenesConnectionData;
 
     void Awake() {
@@ -32,6 +35,8 @@ public class ScenesManager : MonoBehaviour
     }
 
     private IEnumerator LoadNewSceneCo(string sceneName, string doorName) {
+        onLoadSceneCalled?.Invoke();
+         
         SceneManager.LoadScene(sceneName);
         Scene scene = SceneManager.GetSceneByName(sceneName);
         

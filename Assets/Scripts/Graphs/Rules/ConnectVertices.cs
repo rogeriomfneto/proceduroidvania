@@ -24,6 +24,7 @@ public class ConnectVertices : Rule {
 
      private bool match(Graph graph, int i, int j) {
         return  graph.adj[i, j] == -1
+                && graph.adj[j, i] == -1
                 && graph.vertexes[j].keyType == KeysEnum.None
                 && graph.vertexes[i].outCount < 2
                 && graph.vertexes[j].inCount < 2;

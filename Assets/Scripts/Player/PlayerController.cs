@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
 
+    private CapsuleCollider2D capsuleCollider;
+
     [SerializeField]
     private float runSpeed = 7f;
 
@@ -33,9 +35,22 @@ public class PlayerController : MonoBehaviour
     private LayerMask groundLayer;
 
 
+    private void OnEnable() {
+        ScenesManager.onSceneLoad += onChangeScene;
+        ScenesManager.onLoadSceneCalled += onLoadSceneCalled;
+    }
+
+    private void OnDisable() {
+        ScenesManager.onSceneLoad -= onChangeScene;
+        ScenesManager.onLoadSceneCalled -= onLoadSceneCalled;
+    }
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        
     }
 
     void Update()
@@ -85,5 +100,21 @@ public class PlayerController : MonoBehaviour
     private void releaseButtons() {
         jumpPressed = false;
         shootPressed = false;
+    }
+
+    void onLoadSceneCalled() {
+        disableCollision();
+    }
+
+    void onChangeScene(string sceneName, string doorName) {
+        enableCollision();
+    }
+
+    private void disableCollision() {
+        capsuleCollider.enabled = false;
+    }
+
+    private void enableCollision() {
+        capsuleCollider.enabled = true;
     }
 }
